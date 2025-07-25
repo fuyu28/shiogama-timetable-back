@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  shiogama-timetable-api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:./timetable.db
+      - PORT=3000
+    volumes:
+      - ./timetable.db:/usr/src/app/timetable.db
+    restart: unless-stopped

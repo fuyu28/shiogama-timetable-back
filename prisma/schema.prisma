@@ -6,10 +6,30 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+enum Direction {
+  UP // 上り (伏見・上小田井・犬山方面)
+  DOWN // 下り (赤池・豊田市方面)
+}
+
+enum DayType {
+  WEEKDAY
+  HOLIDAY
+}
+
+model Departure {
+  id            Int       @id @default(autoincrement())
+  direction     Direction
+  dayType       DayType
+  departureTime String    @map("departure_time")
+  destination   String
+  note          String?
+
+  @@index([dayType, direction, departureTime])
 }
